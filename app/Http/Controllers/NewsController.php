@@ -32,4 +32,41 @@ class NewsController extends Controller
             return response()->json(['error' => 'Failed to fetch news'], 500);
         }
     }
+    
+    public function getNYTimes()
+    {
+        $apiKey = 'Hv1p3h03ZIo1BHpmIGGUYAwuoGp0setm'; // Replace with your New York Times API key
+
+        $client = new Client();
+
+        try {
+            $response = $client->get("https://api.nytimes.com/svc/topstories/v2/home.json?api-key={$apiKey}");
+            $data = json_decode($response->getBody(), true);
+
+            // Process the retrieved news data
+            // ...
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch news.'], 500);
+        }
+    }
+    public function getGuardianNews()
+    {
+        $apiKey = 'f7b327cb-95a2-4af8-87c9-b44c3baa5325'; // Replace with your The Guardian API key
+        $searchTerm = 'football';
+        $client = new Client();
+
+        try {
+            $response = $client->get("https://content.guardianapis.com/search?q={$searchTerm}&api-key={$apiKey}");
+            $data = json_decode($response->getBody(), true);
+
+            // Process the retrieved news data
+            // ...
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch news.'], 500);
+        }
+    }
 }
