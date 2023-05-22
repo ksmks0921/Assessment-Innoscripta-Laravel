@@ -3,36 +3,51 @@
 namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Models\Api;
+use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller
 {
-    public function index()
-    {
-        $apiKey = 'a21f5e438adf4a6ca54de374212197e7';
-        $endpoint = 'https://newsapi.org/v2/top-headlines';
-        $country = 'us'; // Specify the desired country
-        $category = 'general'; // Specify the desired category
-
-        $client = new Client();
-
-        try {
-            $response = $client->get($endpoint, [
-                'query' => [
-                    'apiKey' => $apiKey,
-                    'country' => $country,
-                    'category' => $category,
-                ],
-            ]);
-
-            $news = json_decode($response->getBody(), true);
-
-            return response()->json($news);
-        } catch (\Exception $e) {
-            // Handle the error gracefully
-            return response()->json(['error' => 'Failed to fetch news'], 500);
-        }
-    }
+      
     
+
+    public function displayNews(Request $request)
+    {
+        $searchKeyword = $request->query('q');        
+        $source = $request->query('sourceId') == "" ? config('app.default_news_source_id') : $request->query('sourceId');
+        $category = $request->query('category') == "" ? config('app.default_news_category') : $request->query('category');    
+        $fromDate = $request->query('from');  
+        $toDate = $request->query('to'); 
+
+        $apiModel = new Api();
+        if($source == 'nytimes') {
+            $response['searchKey'] = $searchKeyword; 
+            $response['news'] = $apiModel->fetchNewYorkTimesNewsFromSource($searchKeyword, $category, $fromDate, $toDate); 
+                        
+        } else if ($source == 'guardian') {
+            $response['news'] = $apiModel->fetchGuardianNewsFromSource($searchKeyword, $category, $fromDate, $toDate);   
+                    
+        } else if ($source == 'news-api') {
+            $response['searchKey'] = $searchKeyword; 
+            $response['news'] = $apiModel->fetchNewsFromSource($searchKeyword, $category, $fromDate, $toDate);           
+        }
+      
+
+        // $response['newsSources'] = $this->fetchAllNewsSources();
+        return response()->json( $response);
+      
+    }
+   
+    public function fetchAllNewsSources()
+    {
+        $response = Cache::remember('allNewsSources', 22 * 60, function () {
+            $api = new Api;
+            return $api->getAllSources();
+        });
+        return $response;
+    }
+
+
     public function getNYTimes()
     {
         $apiKey = 'Hv1p3h03ZIo1BHpmIGGUYAwuoGp0setm'; // Replace with your New York Times API key
@@ -69,4 +84,33 @@ class NewsController extends Controller
             return response()->json(['error' => 'Failed to fetch news.'], 500);
         }
     }
+
+    public function index()
+    {
+        $apiKey = 'a21f5e438adf4a6ca54de374212197e7';
+        $endpoint = 'https://newsapi.org/v2/top-headlines';
+        $country = 'us'; // Specify the desired country
+        $category = 'general'; // Specify the desired category
+
+        $client = new Client();
+
+       
+        try {
+            $response = $client->get($endpoint, [
+                'query' => [
+                    'apiKey' => $apiKey,
+                    'country' => $country,
+                    'category' => $category,
+                    
+                ],
+            ]);
+
+            $news = json_decode($response->getBody(), true);
+
+            return response()->json($news);
+        } catch (\Exception $e) {
+            // Handle the error gracefully
+            return response()->json(['error' => 'Failed to fetch news'], 500);
+        }
+    }  
 }
