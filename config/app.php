@@ -56,14 +56,14 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://127.0.0.1'),
 
     'news_api_url' => env('NEWS_API_URL', null),
     'news_api_key' => env('NEWS_API_KEY', null),
     'default_news_source' => env('DEFAULT_NEWS_SOURCE', 'CNN'),
     'default_news_source_id' => env('DEFAULT_NEWS_SOURCE_ID', 'cnn'),
     'default_news_category' => env('DEFAULT_NEWS_CATEGORY', 'sports'),
-    'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
+    'frontend_url' => env('FRONTEND_URL', 'http://127.0.0.1:3000'),
     'guardian_api_url' => env('GUARDIAN_API_URL', null),
     'guardian_api_key' => env('GUARDIAN_API_KEY', null),
     'newyorktimes_api_url' => env('NEWYORKTIMES_API_URL', null),

@@ -44,14 +44,5 @@ class Api extends Model
         }       
         
     }
-    /**
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    // public function getAllSources()
-    // {
-    //     $urlParams = 'sources?';
-    //     $response = (new Helper)->makeApiCalls($urlParams);
-    //     return Arr::get($response,'sources');
-    // }
+
 }
