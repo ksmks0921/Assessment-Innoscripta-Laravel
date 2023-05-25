@@ -1,10 +1,10 @@
-version: '3.8'
-services: 
+version: "3.8"
+services:
     main:
-        build: 
+        build:
             context: .
             dockerfile: Dockerfile
-        command: 'php artisan serve --host=0.0.0.0'
+        command: "php artisan serve --host=127.0.0.1"
         volumes:
             - .:/app
         ports:
