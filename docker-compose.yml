@@ -10,6 +10,8 @@ services:
             - db
     db:
         image: mysql:8.0
+        container_name: assess-db
+        restart: unless-stopped
         environment:
             MYSQL_DATABASE: assess_laravel_react
             MYSQL_USER: root
