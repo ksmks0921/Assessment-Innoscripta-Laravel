@@ -9,16 +9,15 @@ services:
             - .:/app
         ports:
             - 8000:8000
-        depends_on: 
+        depends_on:
             - db
     db:
-        platform: linux/x86_64
         image: mysql:8.0
-        environment: 
+        environment:
             MYSQL_DATABASE: assess_laravel_react
-            MYSQL_USER: root        
-            MYSQL_PASSWORD: 
-            MYSQL_ROOT_PASSWORD: 
+            MYSQL_USER: root
+            MYSQL_PASSWORD:
+            MYSQL_ROOT_PASSWORD:
         volumes:
             - ./storage/dbdata:/var/lib/mysql
         ports:
