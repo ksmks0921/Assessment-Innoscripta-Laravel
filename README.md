@@ -6,58 +6,70 @@ I am Alexander Mamaril, senior Laravel developer with over 7 years' experience. 
 
 > This is a sever for api
 
+This guide will help you install and set up a Laravel project using Docker.
+
+## Prerequisites
+
+-   Docker (version 24.0.1)
+-   Docker Compose (version 2.12.2)
+-   Composer (version 2.5.5)
+-   PHP (version 8.2.6)
 
 ## Installation
 
-To install this Test Project:
+1. Clone the project repository:
 
-You can install this test laravel project with these **3 simple steps**:
+    ```bash
+    git clone https://github.com/ksmks0921/Assessment-Innoscripta-Laravel
 
-### 1. Create a New Database
+    ```
 
-We'll need to utilize a MySQL database during the installation. For the following stage, you'll need to create a new database and preserve the credentials.
+2. Navigate to the project directory:
 
-### 2. Copy the `.env.example` file
+    ```bash
+    cd Assessment-Innoscripta-Laravel
 
-We need to specify our Environment variables for our application. You will see a file named `.env.example`, you will need to duplicate that file and rename it to `.env`.
+    ```
 
-Then, open up the `.env` file and update your _DB_DATABASE_, _DB_USERNAME_, and _DB_PASSWORD_ in the appropriate fields. You will also want to update the _APP_URL_ to the URL of your application.
+3. Install project dependencies using Composer:
 
-```bash
-APP_URL=http://127.0.0.1:8000/
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=assess_laravel_react
-DB_USERNAME=root
-DB_PASSWORD=
-```
+    ```bash
+    composer install
 
-### 5. Run Migrations and Seeds
+    ```
 
-We must migrate our database schema into our database, which we can accomplish by running the following command:
+4. Rename the .env.example file to .env:
 
-```php
-php artisan migrate
-```
+    ```bash
+    cp .env.example .env
 
-Finally, we will need to seed our database with the following command:
+    ```
 
-```php
-php artisan db:seed
-```
+5. Start the Docker containers:
 
-That's it! You will now be able to visit your URL and see your Surrf application up and running. 🎉
+    ```bash
+    docker-compose up -d
 
-Once done, run the Server with the following command:
+    ```
 
-```php
-php artisan serve
-```
+6. Run the database migrations:
 
-Verify the deployment by navigating to your server address in
-your preferred browser.
+    ```bash
+    docker-compose exec app php artisan migrate
 
-```sh
-http://127.0.0.1:8000
-```
+    ```
+
+7. Run the database migrations:
+
+    Visit http://127.0.0.1:8000 in your browser to access the Laravel application.
+
+## Additional Information
+
+The Docker configuration is defined in the docker-compose.yml file.
+The Laravel application files are located in the app directory.
+The database configuration can be modified in the .env file.
+
+## Troubleshooting
+
+If you encounter any issues, please ensure that you have the required software versions mentioned in the prerequisites section.
+For more detailed troubleshooting steps, refer to the Laravel and Docker documentations
