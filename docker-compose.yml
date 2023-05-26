@@ -22,5 +22,4 @@ services:
         volumes:
             - 'mysql8:/var/lib/mysql'
             - './db/init.sql:/docker-entrypoint-initdb.d/01init.sql'
-        networks:
-            - laravel
+     
