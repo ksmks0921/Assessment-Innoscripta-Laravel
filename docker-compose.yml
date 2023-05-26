@@ -13,9 +13,14 @@ services:
         container_name: assess-db
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: assess_laravel_react
-            MYSQL_USER: root
-            MYSQL_PASSWORD: ""
-            MYSQL_ROOT_PASSWORD: ""
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_USER=${DB_USERNAME}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${DB_PAASSWORD}                
+        ports:
+            - 3306:3306
         volumes:
-            - ./storage/dbdata:/var/lib/mysql
+            - 'mysql8:/var/lib/mysql'
+            - './db/init.sql:/docker-entrypoint-initdb.d/01init.sql'
+        networks:
+            - laravel
