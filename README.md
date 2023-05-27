@@ -31,34 +31,20 @@ This guide will help you install and set up a Laravel project using Docker.
 
     ```
 
-3. Install project dependencies using Composer:
-
-    ```bash
-    composer install
-
-    ```
-
-4. Rename the .env.example file to .env:
-
-    ```bash
-    cp .env.example .env
-
-    ```
-
-5. Start the Docker containers:
+3. Start the Docker containers:
 
     ```bash
     docker-compose up -d
 
     ```
-6. Visit:
+
+4. Visit:
 
     Visit http://127.0.0.1:8000 in your browser to access the Laravel application.
 
 ## Additional Information
 
 The Docker configuration is defined in the docker-compose.yml file.
-The Laravel application files are located in the app directory.
 The database configuration can be modified in the .env file.
 
 ## Troubleshooting
