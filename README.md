@@ -51,15 +51,7 @@ This guide will help you install and set up a Laravel project using Docker.
     docker-compose up -d
 
     ```
-
-6. Run the database migrations:
-
-    ```bash
-    docker-compose exec app php artisan migrate
-
-    ```
-
-7. Run the database migrations:
+6. Visit:
 
     Visit http://127.0.0.1:8000 in your browser to access the Laravel application.
 
