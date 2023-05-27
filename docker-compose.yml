@@ -1,24 +1,34 @@
-version: "3.8"
+version: '3.8'
+
 services:
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - 8000:8000
-        depends_on:
-            - db
-    db:
-        image: mysql:8.0
-        container_name: assess-db
-        restart: unless-stopped
-        environment:
-            - MYSQL_DATABASE=${DB_DATABASE}
-            - MYSQL_USER=${DB_USERNAME}
-            - MYSQL_PASSWORD=${DB_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}                
-        ports:
-            - 3306:3306
-        volumes:          
-            - './db/init.sql:/docker-entrypoint-initdb.d/01init.sql'
-     
+  php:
+    build:
+      context: .
+      target: php
+      args:
+        - APP_ENV={APP_ENV}
+    working_dir: /var/www
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=${APP_ENV}
+      - CONTAINER_ROLE=app
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.33
+    ports:
+      - 3307:3307
+    environment:
+      - MYSQL_DATABASE=assess_laravel_react
+      - MYSQL_USER=root_docker
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
