@@ -1,34 +1,54 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  php:
-    build:
-      context: .
-      target: php
-      args:
-        - APP_ENV={APP_ENV}
-    working_dir: /var/www
-    ports:
-      - 8000:8000
-    volumes:
-      - .:/var/www/html
-    environment:
-      - APP_ENV=${APP_ENV}
-      - CONTAINER_ROLE=app
-    depends_on:
-      - db
+    backend:
+        networks:
+            - app
+        container_name: backend
+        build:
+            context: ./backend      
+            dockerfile: Dockerfile                 
+        environment:
+            DB_HOST: db
+            DB_DATABASE: assess_laravel_react
+            DB_USERNAME: root-app
+            DB_PASSWORD: password
+        ports:
+            - 8000:8000
+        volumes:
+            - ./backend:/app/backend
+                  
+        depends_on:
+            - db
+        
+    frontend:
+        networks:
+            - app
+        container_name: frontend
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        tty: true        
+        ports:
+            - 5173:5173
+        volumes:
+            - ./frontend:/app/frontend
+        depends_on:
+            - backend
+  
+    db:
+        networks:
+            - app
+        container_name: db
+        image: mysql:8.0.33
+        ports:
+            - 3307:3306
+        environment:
+            MYSQL_DATABASE: assess_laravel_react
+            MYSQL_USER: root-app
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: root
 
-  db:
-    image: mysql:8.0.33
-    ports:
-      - 3307:3307
-    environment:
-      - MYSQL_DATABASE=assess_laravel_react
-      - MYSQL_USER=root_docker
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=root
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-volumes:
-  mysql-data:
+networks:
+    app:
+        driver: bridge

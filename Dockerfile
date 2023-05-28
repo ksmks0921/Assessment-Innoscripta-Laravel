@@ -1,5 +1,5 @@
 # Base image
-FROM php:8.2-apache as php
+FROM php:8.2-apache as laravel
 
 
 # Install dependencies
